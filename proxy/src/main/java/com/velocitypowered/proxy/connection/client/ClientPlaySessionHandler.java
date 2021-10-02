@@ -153,6 +153,12 @@ public class ClientPlaySessionHandler implements MinecraftSessionHandler {
     }
 
     String msg = packet.getMessage();
+    if (msg.indexOf('§') >= 0) {
+      player.disconnect(Component.translatable("velocity.error.illegal_chat_character",
+          NamedTextColor.RED));
+      return true;
+    }
+
     if (msg.startsWith("/")) {
       String originalCommand = msg.substring(1);
       server.getCommandManager().callCommandEvent(player, msg.substring(1))
